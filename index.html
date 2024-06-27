@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Name Validation</title>
+  <style>
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Name Validation</h1>
+    <form id="name-form">
+      <label for="name-input">Enter a Name:</label>
+      <input type="text" id="name-input" name="name-input" placeholder="Enter a Name">
+      <button type="submit">Check</button>
+    </form>
+    <p id="result-message"></p>
+  </div>
+
+  <script>
+    document.getElementById('name-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var inputName = document.getElementById('name-input').value.trim();
+      var validNames = ['John', 'Jane', 'Doe']; // Example array of valid names
+
+      if (validNames.includes(inputName)) {
+        document.getElementById('result-message').textContent = inputName + ' is valid.';
+      } else {
+        document.getElementById('result-message').textContent = inputName + ' is invalid.';
+      }
+    });
+  </script>
+</body>
+</html>
