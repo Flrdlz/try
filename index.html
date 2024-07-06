@@ -5,31 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Name Validation</title>
   <style>
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      text-align: center;
-    }
+   body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 600px;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #007BFF;
+  color: white;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Name Validation</h1>
+    <h1>Registration Tracker</h1>
     <form id="name-form">
-      <label for="name-input">Enter a Name:</label>
+      <label for="name-input">Check to see if a student is Registered or Not Registered</label>
       <input type="text" id="name-input" name="name-input" placeholder="Enter a Name">
       <button type="submit">Check</button>
     </form>
     <p id="result-message"></p>
+    <a href="masterlist.html">View Student Masterlist</a>
   </div>
+ 
 
   <script>
+    const students = [
+      { 'name': 'Franz Renz Generoso', 'id': '202310954' },
+      { 'name': 'Johnpaul Lintag', 'id': '202310670' },
+      { 'name': 'Luyhien Sidlacan', 'id': '002' },
+      { 'name': 'Aile John Tabao', 'id': '003' },
+      { 'name': 'Johnlloyd Precia', 'id': '004' },
+      { 'name': 'John Rudolp Ultra', 'id': '005' },
+      { 'name': 'Christian Remulla', 'id': '202310672' },
+      { 'name': 'Jayson Bauag', 'id': '202310455' },
+      { 'name': 'John Ruszel Dayrit', 'id': '202310951' },
+      { 'name': 'Vash Myk Flordeliz', 'id': '202310667' },
+      
+      
+    ];
+
+    const schedules = {
+      'Sunday': [],
+      'Monday': [{ 'name': 'GNED 03', 'time': '4 PM - 5 PM', 'room': 'TBA' }],
+      'Tuesday': [
+        { 'name': 'ITEC 50A', 'time': '7 AM - 11 AM', 'room': 'CL1' },
+        { 'name': 'GNED 01', 'time': '1 PM - 3 PM', 'room': '121' },
+        { 'name': 'GNED 03', 'time': '3 PM - 6 PM', 'room': 'TBA' }
+      ],
+      'Wednesday': [
+        { 'name': 'ITEC 50A', 'time': '7 AM - 9 AM', 'room': 'CL5' },
+        { 'name': 'GNED 06', 'time': '9 AM - 12 NN', 'room': '121' },
+        { 'name': 'FITT 2', 'time': '1 PM - 3 PM', 'room': 'COURT' }
+      ],
+      'Thursday': [],
+      'Friday': [
+        { 'name': 'DCIT 23A', 'time': '7 AM - 3 PM', 'room': 'A-303' },
+        { 'name': 'GNED 12', 'time': '3 PM - 4 PM', 'room': '404' }
+      ],
+      'Saturday': [
+        { 'name': 'NSTP 2', 'time': '7 AM - 12 NN', 'room': 'TBA' },
+        { 'name': 'GNED 12', 'time': '5 PM - 7 PM', 'room': '404' }
+      ]
+    };
+
     document.getElementById('name-form').addEventListener('submit', function(event) {
       event.preventDefault();
       var inputName = document.getElementById('name-input').value.trim();
-      var validNames = ['John', 'Jane', 'Doe']; // Example array of valid names
+      var validNames = students.map(student => student.id.toLowerCase()); // Create an array of lowercase names
 
-      if (validNames.includes(inputName)) {
+      if (validNames.includes(inputName.toLowerCase())) {
         document.getElementById('result-message').textContent = inputName + ' is valid.';
       } else {
         document.getElementById('result-message').textContent = inputName + ' is invalid.';
