@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masterlist</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+    th:hover {
+      color: blue;
+    }
+    a {
+      text-decoration: none;
+      color: #007BFF;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Student Masterlist</h1>
+    <table id="masterlist-table">
+      <thead>
+        <tr>
+          <th class="sortable" data-sort="name">Student Name</th>
+          <th class="sortable" data-sort="id">Student ID</th>
+        </tr>
+      </thead>
+      <tbody id="masterlist-table-body">
+        <!-- Student rows will be dynamically added -->
+      </tbody>
+    </table>
+    <h2>Subject Schedule</h2>
+    <table id="schedule-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Subject</th>
+          <th>Time</th>
+          <th>Room</th>
+        </tr>
+      </thead>
+      <tbody id="schedule-table-body">
+        <!-- Schedule rows will be dynamically added -->
+      </tbody>
+    </table>
+    <a href="index.html">Back to Registration Tracker</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const masterlistTableBody = document.getElementById('masterlist-table-body');
+      const scheduleTableBody = document.getElementById('schedule-table-body');
+      const headers = document.querySelectorAll('#masterlist-table th.sortable');
+
+      // Populate student masterlist table
+      students.forEach(student => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${student.name}</td>
+          <td>${student.id}</td>
+        `;
+        masterlistTableBody.appendChild(row);
+      });
+
+      // Sorting functionality for masterlist table
+      headers.forEach(header => {
+        header.addEventListener('click', function() {
+          const sortKey = this.getAttribute('data-sort');
+          const rows = Array.from(masterlistTableBody.querySelectorAll('tr'));
+
+          const sortedRows = rows.sort((a, b) => {
+            const aValue = a.querySelector(`td:nth-child(${sortKey === 'name' ? 1 : 2})`).textContent.trim();
+            const bValue = b.querySelector(`td:nth-child(${sortKey === 'name' ? 1 : 2})`).textContent.trim();
+            
+            if (sortKey === 'name') {
+              return aValue.localeCompare(bValue);
+            } else {
+              return aValue.localeCompare(bValue, undefined, { numeric: true, sensitivity: 'base' });
+            }
+          });
+
+          masterlistTableBody.innerHTML = '';
+          sortedRows.forEach(row => masterlistTableBody.appendChild(row));
+        });
+      });
+
+      // Function to populate the schedule table
+      function populateScheduleTable() {
+        Object.entries(schedules).forEach(([day, subjects]) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${day}</td>
+            <td>${subjects.length > 0 ? subjects.map(subject => `<div>${subject.name}</div>`).join('') : 'Empty'}</td>
+            <td>${subjects.length > 0 ? subjects.map(subject => `<div>${subject.time}</div>`).join('') : ''}</td>
+            <td>${subjects.length > 0 ? subjects.map(subject => `<div>${subject.room}</div>`).join('') : ''}</td>
+          `;
+          scheduleTableBody.appendChild(row);
+        });
+      }
+
+      populateScheduleTable();
+    });
+
+    // Dummy schedule data
+    const schedules = {
+      'Sunday': [],
+      'Monday': [{ 'name': 'GNED 03', 'time': '4 PM - 5 PM', 'room': 'TBA' }],
+      'Tuesday': [
+        { 'name': 'ITEC 50A', 'time': '7 AM - 11 AM', 'room': 'CL1' },
+        { 'name': 'GNED 01', 'time': '1 PM - 3 PM', 'room': '121' },
+        { 'name': 'GNED 03', 'time': '3 PM - 6 PM', 'room': 'TBA' }
+      ],
+      'Wednesday': [
+        { 'name': 'ITEC 50A', 'time': '7 AM - 9 AM', 'room': 'CL5' },
+        { 'name': 'GNED 06', 'time': '9 AM - 12 NN', 'room': '121' },
+        { 'name': 'FITT 2', 'time': '1 PM - 3 PM', 'room': 'COURT' }
+      ],
+      'Thursday': [],
+      'Friday': [
+        { 'name': 'DCIT 23A', 'time': '7 AM - 3 PM', 'room': 'A-303' },
+        { 'name': 'GNED 12', 'time': '3 PM - 4 PM', 'room': '404' }
+      ],
+      'Saturday': [
+        { 'name': 'NSTP 2', 'time': '7 AM - 12 NN', 'room': 'TBA' },
+        { 'name': 'GNED 12', 'time': '5 PM - 7 PM', 'room': '404' }
+      ]
+    };
+
+    const students = [
+      { 'name': 'Franz Renz Generoso', 'id': '202310954' },
+      { 'name': 'Johnpaul Lintag', 'id': '202310670' },
+      { 'name': 'Luyhien Sidlacan', 'id': '002' },
+      { 'name': 'Aile John Tabao', 'id': '003' },
+      { 'name': 'Johnlloyd Precia', 'id': '004' },
+      { 'name': 'John Rudolp Ultra', 'id': '005' },
+      { 'name': 'Christian Remulla', 'id': '202310672' },
+      { 'name': 'Jayson Bauag', 'id': '202310455' },
+      { 'name': 'John Ruszel Dayrit', 'id': '202310951' },
+      { 'name': 'Vash Myk Flordeliz', 'id': '202310667' },
+      
+      
+    ];
+  </script>
+</body>
+</html>
